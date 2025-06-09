@@ -1,5 +1,40 @@
 \begin{abstract}
-The increasing deployment of Internet of Thing (IoT) devices has raised a serious problem about the lack of scalable and adaptable system-level access control in environments with limited resources. Traditional Mandatory Access Control (MAC) systems like SELinux and AppArmor are often either too static or heavyweight for embedded Linux platforms. This research proposes a lightweight, programmable MAC framework using Extended Berkeley Packet Filter (eBPF) and Linux Security Modules (LSM) hooks to enforce security policies  within the Linux kernel.  This approach will support policy updates, and low latency; the system aims to overcome existing MAC models like AppArmor and SELinux. It follows a design science methodology and will be implemented and evaluated on a physical environment (Raspberry Pi). The expected contribution is a reference framework in-kernel access control in modern IoT systems.
+
+
+
+Environments with limited resources such as IoT devices, face a  significant challenge in implementing security policies due to their constraints. Previous research has concluded that traditional Mandatory Access Control (MAC) systems like SELinux and AppArmor introduce considerable overhead since these are executed in user space. In this study, we evaluated the effectiveness of enforcing security policies based on Linux Security Modules (LSM) in kernel space to protect IoT devices while reducing their resource footprint. We focused on identify LSM hooks to enforce security policies there, and on the trade off between complexity and the effectiveness against traditional MAC system using standard metrics like latency, memory, and cpu usage. We also carried out experiments based on the Mirai attack to assess the effectiveness of  such policies in a real-world conditions against IoT malware. Finally, we report the evaluation results and discuss about future works.
+
+
+
+%Traditional Mandatory Access Control (MAC) systems like SELinux and AppArmor are often either too static or heavyweight for embedded Linux platforms. This research proposes a lightweight, programmable MAC framework using Extended Berkeley Packet Filter (eBPF) and Linux Security Modules (LSM) hooks to enforce security policies  within the Linux kernel.  This approach will support policy updates, and low latency; the system aims to overcome existing MAC models like AppArmor and SELinux. It follows a design science methodology and will be implemented and evaluated on a physical environment (Raspberry Pi). The expected contribution is a reference framework in-kernel access control in modern IoT systems.
+
+
+
+%We also conducted simulated experiments based on the attack method of Mirai to investigate whether MAC systems can protect against IoT malware.
+
+
+%Finally, we discuss the impact of a combination of these factors on MAC system adoption
+
+
+%The increasing deployment of Internet of Thing (IoT) devices has raised a serious problem about the lack of scalable and adaptable system-level access control in environments with limited resources.
+% Traditional Mandatory Access Control (MAC) systems like SELinux and AppArmor are often either too static or heavyweight for embedded Linux platforms. This research proposes a lightweight, programmable MAC framework using Extended Berkeley Packet Filter (eBPF) and Linux Security Modules (LSM) hooks to enforce security policies  within the Linux kernel.  This approach will support policy updates, and low latency; the system aims to overcome existing MAC models like AppArmor and SELinux. It follows a design science methodology and will be implemented and evaluated on a physical environment (Raspberry Pi). The expected contribution is a reference framework in-kernel access control in modern IoT systems.
+
+
+%Context
+%
+%The opening sentences should summarize your topic and describe what researchers already know, with reference to the literature. 
+%Purpose
+%
+%A brief discussion that clearly states the purpose of your research or creative project. This should give general background information on your work and allow people from different fields to understand what you are talking about. Use verbs like investigate, analyze, test, etc. to describe how you began your work. 
+%Methods
+%
+%In this section you will be discussing the ways in which your research was performed and the type of tools or methodological techniques you used to conduct your research. 
+%Findings
+%
+%This is where you describe the main findings of your research study and what you have learned. Try to include only the most important findings of your research that will allow the reader to understand your conclusions. If you have not completed the project, talk about your anticipated results and what you expect the outcomes of the study to be. 
+%Significance
+%
+%This is the final section of your abstract where you summarize the work performed. This is where you also discuss the relevance of your work and how it advances your field and the scientific field in general.
 
 
 \end{abstract}
