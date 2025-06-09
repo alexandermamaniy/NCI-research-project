@@ -7,7 +7,7 @@
 *.ilg
 *.ind
 *.lof
-*.log
+**/*.log
 *.lot
 *.out
 *.toc
