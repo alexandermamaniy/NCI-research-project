@@ -6,15 +6,21 @@
 \label{sec:Introduction}
 %% ==============================
 
-In this section you introduce the topic of the paper, motivate why it needs to be studied (appropriate citations are best for this), presents the research question(s) and research objectives, and/or hypothesis or hypotheses. Brieﬂy summarise the contribution to the scientiﬁc literature your work entails. Finish this section by outlining the structure of the report.
 
-This is a nice little introduction with some figure in \figurename~\ref{fig:figureExample}
 
-\begin{figure}[htp]
-\begin{center}
-\includegraphics[width = 0.4\textwidth]{google.png}
-\caption{This is a caption}
-\label{fig:figureExample}
-\end{center}
-\end{figure} 
+The fast adoption of IoT in multiple sectors have led to companies to deploy thousands of devices under limited hardware and software constraints \citep{hossain2015towards}. These devices run lightweight Linux-based distributions and these are expected to run continuously for days in hostile environment wherein save resources like power, memory, CPU consumption, and so on are crucial.  So, their limited computational power and memory capacity makes them unable to support traditional security mechanisms like in conventional cloud services like AWS EC2 instances, or Azure virtual servers. As a result, IoT devices often lack strong system-level access control and are vulnerable to unauthorized access, malware infections and policy violations.
+
+Traditional access control mechanisms such as Discretionary Access Control (DAC) and Role-Based Access Control (RBAC) are not sufficient to secure actual IoT systems due to these models rely strongly on user identity or predefined roles and offer limited enforcement granularity especially against internal or process level threats \citep{From_Conventional_to_State-of-the-Art_IoT_Access_Control_Models, Access_control_in_Internet-of-Things}. Mandatory Access Control (MAC) implemented through the Linux Security Module (LSM) interface is a more robust enforcement model. However, the most commonly used MAC frameworks such as AppArmor, SELinux, and TOMOYO are not suitable for embedded and IoT environments because they rely on static, precompiled policies, complex configuration and high memory usage.
+
+To address these challenges, this research explores the use of Extended Berkeley Packet Filter (eBPF) technology combined  with LSM hooks to create an eBPF-based MAC system. This eBPF approach allows verified programs to run in kernel space,  responding to system events with minimal performance overhead \citep{eBPF_Pioneering_Kernel_Programmability_and_System_Observability-Past_Present_and_Future_Insights}. These combination enables the creation of lightweight, programmable access control mechanisms that are compatible with real-world IoT constraints. These enforcement mechanisms can adapt to changing system conditions, be updated at runtime and avoid the rigidity of traditional static policy models.
+
+\textbf{Research question: } How can an eBPF-based Mandatory Access Control system ensure high availability, low overhead, and compatibility with kernel-based IoT devices?
+
+
+This project proposes the design and implementation of an eBPF-based MAC system integrated with LSM hooks to enforce access control policies within the Linux kernel. The system will support policy definition, modification and removal without requiring system restarts or kernel recompilation. The architecture will be optimized for low-latency enforcement, small memory footprint and practical deployment on platforms like Raspberry Pi system. 
+
+This research contributes to mandatory access control for embedded IoT systems by showing how programmability and low overhead can coexist in kernel level security. By using eBPF and LSM hooks the system sets a precedent for enforcing policies in real time without relying on traditional policy compilers. It offers a reference implementation for future researchers exploring in-kernel, event-driven access control and lies the ground work for more intelligent mechanisms. It also provides a new way to evaluate MAC systems in resource constrained environments.
+
+% This research is divided into three sections: section \ref{literature_review} is a critical literature review of existing MAC systems, highlights their limitations in embedded and IoT environments and identifies the specific research niche that this project address to. Subsection \ref{research_method_sub} describes the research method; identifying the most crucial components that the project has to address to be implemented. Subsection \ref{research resources} and \ref{evaluationperf} list the required tool for the implementation and dive into details about the metrics to consider in the evaluation phase.Subsection \ref{ethical_considerations} presents  the ethical considerations in implementing and testing system-level security mechanisms in simulated attack scenarios. Finally, subsection \ref{project_plan} is the project plan, such as  the timeline, milestones and dependencies to complete the project.
+
 

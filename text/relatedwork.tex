@@ -4,6 +4,53 @@
 %% ==============
 \section{Related Work}
 \label{sec:rw}
+
+
+
+
+\subsection{MAC Systems for IoT}
+
+
+
+\cite{Evaluation_of_Effectiveness_of_MAC_Systems_Based_on_LSM_for_Protecting_IoT_Devices} performed a evaluation wherein compares four MAC systems (SELinux, AppArmor, TOMOYO, and Smack) on IoT environments. The evaluation was focused on evaluate default policy effectiveness, malware resilience in specifically against Mirai \citep{272224}, system compatibility, and resource consumption. While SELinux offered a strong security out-of-the-box by managing to block Mirai attacks, it also introduced the highest resource overhead, reaching up to use 85\% of the memory in test scenarios; making it unsuitable for limited IoT hardware. AppArmor and TOMOYO show better efficiency but required  high customized policy development to achieve the same protection. Smack failed because it was unable to prevent malware propagation due to limitations in its label and capability model.
+\\\\
+\cite{Enforcing_Multiple_Security_Policies_for_Android_System} proposed MPdroid, a hybrid solution combining Smack (kernel-level MAC) with role-based access control in the Android framework. MPdroid reached to block malware behaviors (unauthorized SMS and data access) through dynamic post-installation role assignment. However, MPdroid has a strongly dependency to the platform and it was tightly integrated with Android’s internal system services, making it unsuitable to general-purpose or embedded Linux distributions.
+\\\\
+These findings are consistent with earlier efforts by \cite{SELinux_for_consumer_electronics_devices} and \cite{Reducing_Resource_Consumption_of_SELinux_for_Embedded_Systems}, who worked in reducing SELinux’s memory consumption using SEEdit and SPDL. While they achieved  to reduce in over 90\%, SELinux still required several megabytes of RAM and significant CPU usage for policy evaluation; unsuitable for typical IoT devices running minimal Linux distributions like BusyBox. These understanding of the past reinforce that high resource overhead is still a critical limitation, despite years of optimization. 
+\\\\
+Across these researches, there is no solution that provides low-overhead, dynamic, and portable MAC enforcement suitable for general-purpose, kernel-based IoT platforms. This opens the niche for a runtime-adaptable, programmable approach using eBPF and LSM hooks.
+
+\subsection{Policy Customization}
+
+\cite{Effectiveness_of_MAC_Systems_based_on_LSM_and_their_Security_Policy_Configuration_for_Protecting_IoT_Devices} extended their earlier research by exploring the effectiveness that involved customizing MAC policies across multiple enforcement strategies: focusing on deny-listing based on system commands, process context isolation, and origin-based file access restrictions. They concluded that AppArmor  as the easiest to customize due to its intuitive path-based rules, support for deny directives, and user-space tools like aa-genprof, which help to reduce the policy complexity and configuration time, but it still requires manual tuning and careful rule specification to guarantee accurate coverage. Otherwise,  TOMOYO, due to its process-based control, demanded a large volume of rules and manual editing. Smack, in contrast, showed serious limitations because of its lack of native deny rules; they also highlight the complexity in managing label combinations in larger systems.
+\\\\
+In contrast, \cite{Hardening_the_Internet_of_Things} deployed a real-world industrial IoT gateway using TOMOYO (LSM-based Mandatory Access Control ) and CaitSith (Rule-Based Access Control) to enforce layered security policies.  In the evaluation, their framework managed to defend against exploits like PwnKit on the filesystem, process, and network control layers. Their implementation prevents access to critical services (sshd, SNMP, VPN); Privilege escalation attempts (PwnKit, shell escape) failed due to policy enforcement and filesystem restrictions; and CaitSith rules explicitly prevented Living-off-the-Land attacks (unauthorized SNMP config overrides). Their results confirm the effectiveness of LSM-based MAC systems in blocking known threats such as privilege escalation attacks and misconfigured services. However, they clarify that the system's protection depends on carefully layered and static policies; they also acknowledge the lack of scalability across multiple devices or dynamic environments.
+\\\\
+While these works demonstrated that MAC customization can improve IoT security, they all rely on static policy models that must be  manually defined and pre-configured. No current solution allows policies to be defined, adjusted, or learned at runtime, neither they support dynamic adaptation to context or behavior. A runtime-programmable MAC system, such as one based on eBPF and LSM hooks, would fill this gap.
+
+\subsection{Real-Time Constraints}
+
+\cite{Real_time_Mandatory_Access_Control_on_SELinux_for_Internet_of_Things} established that in environments with sensitive latency such as IoT and robotics, MAC enforcement can severely break down operation by introducing unpredictable delays in system call execution. To address this problem they propose a Priority-Type Enforcement (Priory-TE), a tuned SELinux that prioritizes access control decisions for real time processes. To do that, it reorders type identifiers to optimize rule lookup and reduce SELinux Access Vector Cache (AVC) misses. Their evaluation showed that Priority-TE reduced system call latency by nearly 50\% for open() and remove() operations; while also improving thread periodicity at 5 ms intervals. Standard SELinux could not sustain that level of performance under load. Yet, Priority-TE still relies on SELinux's static policy structure. That means we need to manually prioritize types and tune cache parameters. That can be difficult to maintain and scale in dynamic or resource-constrained environments. That limitation highlights the need for a MAC more flexible and lightweight enforcement mechanisms.
+\\\\
+That is where the gap lies: Priority-TE shows what is possible with MAC systems in real-time environments but it does not give us the dynamic enforcement or in-kernel policy logic that modern IoT systems really need. A MAC system built on eBPF could change that. By attaching logic to LSM hooks, you could get low-latency enforcement without needing to manually tune policies.
+% \\\\
+\subsection{Embedded Optimization}
+
+\cite{SELinux_for_consumer_electronics_devices} addressed SELinux’s lack of suitability for consumer electronics (CE) and embedded devices by doing a lot of kernel and userland optimizations and creating SEEdit, a simplified policy editor. SEEdit uses Simplified Policy Description Language (SPDL) so developers can write more concise and readable policies than traditional SELinux syntax. Their tuning reduced SELinux’s memory footprint by over 90\% (from 5.3 MB to 465 KB) and policy file size from 2.3 MB to 211 KB. This allowed SELinux to run on hardware with as little as 64 MB of RAM and 32 MB of flash, which is common in CE and IoT devices at that time.
+\\\\
+Building on this, \cite{Reducing_Resource_Consumption_of_SELinux_for_Embedded_Systems} formalized the concept of Embedded SELinux, further tuned the kernel and policy and contributed patches to BusyBox, libselinux, and SELinux userland utilities to make it work better with minimal Linux distributions. They introduced hash size tuning for Access Vector Cache (AVC), dynamic table allocation based on policy size and optional stripping of unused policy types to reduce runtime overhead and improve scalability. Benchmarking showed syscall latency reduction up to 50\% and sustained policy enforcement with no performance degradation under typical embedded workloads.
+\\\\
+Although these optimizations improve the feasibility of SELinux on embedded devices, they do not offer programmable, context-aware enforcement logic. All decisions must still be predefined and deployed statically. This limitation leaves open the need for a lightweight MAC system capable of making access control decisions dynamically at runtime, which eBPF is uniquely positioned to support.
+
+\subsection{Research Niche}
+
+This research fills a unexplored gap in access control for IoT systems: a lightweight Mandatory Access Control (MAC) system in the kernel space using eBPF and LSM hooks. Existing MAC solutions like SELinux, AppArmor, TOMOYO and Smack are effective in static environment but not suitable for modern IoT environments as they rely on pre-compiled and high resource consumption. Even in their embedded forms (e.g. Embedded SELinux) they require manual rule specification and pre-deployment configuration; all of which are limiting in fast evolving, resource constrained IoT ecosystems.
+
+This project defines a new space by proposing an eBPF based enforcement mechanism that hooks directly into the Linux kernel’s LSM interface. Unlike traditional MAC systems, eBPF allows small, verifiable programs to be loaded and updated at runtime, enabling context aware, event driven security policies without rebooting or recompiling the kernel. This programmability allows you to define dynamic rules like “deny file access if the process comes from an untrusted namespace”, a type of conditional logic not possible in static MAC systems
+
+
+
+
 %% ==============
 
 In this section you need to situate your work in the academic literature; this entails a critical (positive, negative, helpful) review of similar work. If you can't find similar work, you haven't looked hard enough. Ideally, you want to be reading around 50 papers; of which at least 25 should appear in the paper itself. Note that urls are not references, they are footnotes.\footnote{Like this one: \url{http://www.ncirl.ie}}
