@@ -1,0 +1,29 @@
+\begin{thebibliography}{xx}
+
+\harvarditem{Beloglazov \harvardand\ Buyya}{2015}{BeloglazovB15}
+Beloglazov, A. \harvardand\ Buyya, R.  \harvardyearleft 2015\harvardyearright .
+\newblock Openstack neat: a framework for dynamic and energy-efficient
+  consolidation of virtual machines in openstack clouds, {\em Concurrency and
+  Computation: Practice and Experience} {\bf 27}(5):~1310--1333.
+
+\harvarditem{Feng \harvardand\ Buyya}{2016}{FengB16}
+Feng, G. \harvardand\ Buyya, R.  \harvardyearleft 2016\harvardyearright .
+\newblock Maximum revenue-oriented resource allocation in cloud, {\em {IJGUC}}
+  {\bf 7}(1):~12--21.
+
+\harvarditem[Gomes et~al.]{Gomes, Calheiros \harvardand\
+  Tolosana{-}Calasanz}{2015}{GomesCT15}
+Gomes, D.~G., Calheiros, R.~N. \harvardand\ Tolosana{-}Calasanz, R.
+  \harvardyearleft 2015\harvardyearright .
+\newblock Introduction to the special issue on cloud computing: Recent
+  developments and challenging issues, {\em Computers {\&} Electrical
+  Engineering} {\bf 42}:~31--32.
+
+\harvarditem[Kune et~al.]{Kune, Konugurthi, Agarwal, Rao \harvardand\
+  Buyya}{2016}{KuneKARB16}
+Kune, R., Konugurthi, P., Agarwal, A., Rao, C.~R. \harvardand\ Buyya, R.
+  \harvardyearleft 2016\harvardyearright .
+\newblock The anatomy of big data computing, {\em Softw., Pract. Exper.} {\bf
+  46}(1):~79--105.
+
+\end{thebibliography}
